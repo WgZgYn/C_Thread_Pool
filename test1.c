@@ -1,8 +1,9 @@
 // #include "sort.hpp"
+#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <threads.h>
+#include "utils.hpp"
 
 void print(int a, ...) {
     va_list arg_list;
@@ -27,10 +28,13 @@ void call_add(int* res, ...) {
 }
 
 int main() {
-    print(3, 5, "abc\n");
-    int* a = malloc(sizeof(int));
-    call_add(a, 5, 7);
-    printf("%d\n", *a);
+    int a = 5, b = 7;
+    double c = 6.6, d = 7.8;
+    
+    SWAP(&a, &b);
+    SWAP(&c, &d);
+
+    printf("a: %d, b: %d, c: %lf, d: %lf\n", a, b, c, d);
     return 0;
 }
 

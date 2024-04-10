@@ -11,8 +11,6 @@ void print_nums(int nums[], int length);
 
 void swap(int *a, int *b);
 
-// 提取文件名的文件名部分
-#define SHORT_FILE (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 // 定义DEBUG_LOG宏，用于打印DEBUG LOG
 #ifdef DEBUG
@@ -20,6 +18,8 @@ void swap(int *a, int *b);
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+// 提取文件名的文件名部分
+#define SHORT_FILE (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #define DEBUG_LOG_TIME(format, ...) do {    \
         time_t t = time(NULL);              \
         struct tm *tm_info = localtime(&t); \

@@ -13,6 +13,21 @@ void swap(int *a, int *b) {
     *a = temp;
 }
 
+#define SWAP_TYPE(a, b, type) \
+do {                          \
+    type temp = *b;           \
+    *b = *a;                  \
+    *a = temp;                \
+} while(0)                    \
+
+#define SWAP(a, b)          \
+do {                        \
+    a && b && *a && *b;     \
+    typeof(*a) temp = *b;   \
+    *b = *a;                \
+    *a = temp;              \
+} while(0)                  \
+
 void gen_random(int nums[], int length, int upper) {
     srand(time(NULL));
     for (int i = 0; i < length; i++) {
