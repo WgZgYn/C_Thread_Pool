@@ -3,7 +3,7 @@
 #include "sort.hpp"
 
 
-#define LENGTH 100000000
+#define LENGTH 100000
 #define UPPER (LENGTH)
 
 int main() {

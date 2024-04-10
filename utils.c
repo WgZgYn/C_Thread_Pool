@@ -7,7 +7,7 @@
 #include <time.h>
 
 
-void swap(int *a, int *b) {
+inline void swap(int *a, int *b) {
     int temp = *b;
     *b = *a;
     *a = temp;
@@ -15,21 +15,19 @@ void swap(int *a, int *b) {
 
 #define SWAP_TYPE(a, b, type) \
 do {                          \
-    type temp = *b;           \
-    *b = *a;                  \
-    *a = temp;                \
-} while(0)                    \
+    type temp = *(b);         \
+    *(b) = *(a);              \
+    *(a) = temp;              \
+} while(0)                    
 
 // maybe useful in GCC compiler
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Waddress"
 #pragma GCC diagnostic ignored "-Wunused-value"
-#define SWAP(a, b)          \
-do {                        \
-    a && b && *a && *b;     \
-    typeof(*a) temp = *b;   \
-    *b = *a;                \
-    *a = temp;              \
+#define SWAP(a, b)                  \
+do {                                \
+    (a) && (b) && (*(a)) && (*(b)); \
+    SWAP_TYPE(a, b, typeof(*(a)));  \
 } while(0)                  
 #pragma GCC diagnostic pop
 
