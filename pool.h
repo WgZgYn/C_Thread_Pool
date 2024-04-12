@@ -10,8 +10,8 @@
 #define THREADPOOL_POSIX
 #define DEBUG // 用于DEBUG_LOG调试
 
-#define MAX_THREADS 4
-#define MAX_TASKS 10
+#define MAX_THREADS 16
+#define MAX_TASKS 20
 
 
 #ifdef THREADPOOL_POSIX
@@ -51,7 +51,7 @@ typedef struct {
     void *args;     // 函数参数
 } Task;
 
-
+// 私有封装防止外部调用内部数据
 typedef struct ThreadPool ThreadPool;
 
 #ifdef THREADPOOL_POSIX

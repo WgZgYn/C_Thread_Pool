@@ -55,6 +55,7 @@ void pool_quick_sort(ThreadPool *pool, int *nums, int length) {
     }
     DEBUG_LOG_TIME("MALLOC MERGE BUFFER");
     int *buff = malloc(sizeof(int) * length);
+    DEBUG_LOG_TIME("MALLOC MERGE BUFFER OK");
     DEBUG_LOG_TIME("POOL WAIT");
     pool_wait(pool);
     DEBUG_LOG_TIME("BATCH SORT FINISH");

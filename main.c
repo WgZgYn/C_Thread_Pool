@@ -22,8 +22,7 @@ int main() {
     DEBUG_LOG_TIME("SORT START");
 
     pool_quick_sort(pool, nums, len);
-    sleep(1);
-    print_nums(nums, len);
+//    print_nums(nums, len);
     int ok = is_sort(nums, 0, len - 1);
 
     if (ok == 1) {
