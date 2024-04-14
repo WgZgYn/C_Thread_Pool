@@ -7,7 +7,7 @@
 
 #include <semaphore.h>
 
-#define THREADPOOL_POSIX
+// #define THREADPOOL_POSIX
 #define DEBUG // 用于DEBUG_LOG调试
 
 #define MAX_THREADS 16
@@ -17,9 +17,7 @@
 #ifdef THREADPOOL_POSIX
 #include <pthread.h>
 #else
-
 #include <threads.h>
-
 #endif
 
 
@@ -57,7 +55,6 @@ typedef struct ThreadPool ThreadPool;
 #ifdef THREADPOOL_POSIX
 void *worker(void *arg);
 #else
-
 int worker(void *arg);
 
 #endif

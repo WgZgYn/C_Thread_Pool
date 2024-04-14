@@ -12,13 +12,13 @@ struct ThreadPool {
     Task task_queue[MAX_TASKS]; // 任务队列
     int front, rear;            // 任务队列的前端和后端
 
-    int thread_count;               // 当前线程数量
+    int thread_count;           // 当前线程数量
     _Atomic int task_count; // 当前执行中与待执行的任务数量，需要为原子类型防止数据竞争进而导致pool_wait永久阻塞
 
     mtx_t p_mutex; // 生产者锁
     mtx_t c_mutex; // 消费者锁
 
-    sem_t empty;          // 信号量，用于表示队列剩余缓冲区大小
+    sem_t empty_count;          // 信号量，用于表示队列剩余缓冲区大小
     sem_t task_count_sem; // 信号量，用于表示可执行的任务数量
 
     mtx_t mutex; // 互斥锁，用于保护任务队列
@@ -44,14 +44,14 @@ void pool_init(ThreadPool *pool) {
     cnd_init(&pool->wait_cond);
 #endif
     sem_init(&pool->task_count_sem, 0, 0);
-    sem_init(&pool->empty, 0, MAX_TASKS);
+    sem_init(&pool->empty_count, 0, MAX_TASKS);
 }
 
 // TODO: wait时应阻塞任务添加
 void add_task(ThreadPool *pool, Func *function, void *args) {
     pool->task_count++;// 原子类型
     /// 临界区
-    sem_wait(&pool->empty);
+    sem_wait(&pool->empty_count);
     mtx_lock(&pool->p_mutex);
     pool->task_queue[pool->rear].function = function;
     pool->task_queue[pool->rear].args = args;
@@ -83,7 +83,7 @@ int worker(void *arg) {
         pool->front = (pool->front + 1) % MAX_TASKS;
         mtx_unlock(&pool->c_mutex);
 
-        sem_post(&pool->empty);
+        sem_post(&pool->empty_count);
         if (task.function == NULL)
             return 0; // 收到结束通知， 仅会在destroy时触发
         task.function(task.args);
@@ -118,7 +118,7 @@ void pool_destroy(ThreadPool *pool) {
     }
 
     sem_destroy(&pool->task_count_sem);
-    sem_destroy(&pool->empty);
+    sem_destroy(&pool->empty_count);
 
     mtx_destroy(&pool->c_mutex);
     mtx_destroy(&pool->p_mutex);
