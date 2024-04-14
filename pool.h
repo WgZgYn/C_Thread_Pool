@@ -17,9 +17,7 @@
 #ifdef THREADPOOL_POSIX
 #include <pthread.h>
 #else
-
 #include <threads.h>
-
 #endif
 
 
