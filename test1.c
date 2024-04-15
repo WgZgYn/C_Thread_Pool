@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <threads.h>
 #include "utils.hpp"
+#include <omp.h>
 
 void print(int a, ...) {
     va_list arg_list;
@@ -34,6 +35,11 @@ int main() {
     SWAP(&c, &d);
 
     printf("a: %d, b: %d, c: %lf, d: %lf\n", a, b, c, d);
+
+#pragma omp parallel for num_threads(4)
+    for(int i = 0; i < 32; i++) {
+        printf("%d\n", i);
+    }
     return 0;
 }
 
